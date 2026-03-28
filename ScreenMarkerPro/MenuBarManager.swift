@@ -9,6 +9,12 @@ import Cocoa
 import ServiceManagement
 import SwiftUI
 
+enum PermissionUIState {
+    case ready
+    case accessibilityMissing
+    case retryInitialization
+}
+
 /// 菜单栏管理器 - 负责菜单栏图标和菜单
 class MenuBarManager: NSObject {
     
@@ -18,11 +24,13 @@ class MenuBarManager: NSObject {
     private let menu = NSMenu()
     private var settingsWindowController: NSWindowController?
     private var permissionItem: NSMenuItem?
+    private var permissionRetryItem: NSMenuItem?
     private var usageHintItem: NSMenuItem?
     
     /// 开机启动状态变化回调
     var onLoginItemStatusChanged: ((Bool) -> Void)?
     var onOpenAccessibilitySettings: (() -> Void)?
+    var onRetryPermissionCheck: (() -> Void)?
     
     // MARK: - Lifecycle
     
@@ -72,6 +80,17 @@ class MenuBarManager: NSObject {
         permissionItem?.isHidden = true
         if let permissionItem = permissionItem {
             menu.addItem(permissionItem)
+        }
+
+        permissionRetryItem = NSMenuItem(
+            title: "重新检测权限并重试",
+            action: #selector(retryPermissionCheck),
+            keyEquivalent: ""
+        )
+        permissionRetryItem?.target = self
+        permissionRetryItem?.isHidden = true
+        if let permissionRetryItem = permissionRetryItem {
+            menu.addItem(permissionRetryItem)
         }
         
         menu.addItem(NSMenuItem.separator())
@@ -132,6 +151,10 @@ class MenuBarManager: NSObject {
         AccessibilityManager.shared.openSystemPreferences()
         onOpenAccessibilitySettings?()
     }
+
+    @objc private func retryPermissionCheck() {
+        onRetryPermissionCheck?()
+    }
     
     @objc private func openSettings() {
         if settingsWindowController == nil {
@@ -189,7 +212,7 @@ class MenuBarManager: NSObject {
     
     @objc private func showAbout() {
         let alert = NSAlert()
-        alert.messageText = "ScreenMarker Pro V1.1.2"
+        alert.messageText = "ScreenMarker Pro V1.1.3"
         alert.informativeText = ""
         alert.alertStyle = .informational
         alert.addButton(withTitle: "好的")
@@ -283,17 +306,32 @@ class MenuBarManager: NSObject {
     }
     
     /// 更新权限状态显示
-    func updatePermissionStatus(_ hasPermission: Bool) {
-        permissionItem?.isHidden = hasPermission
-        
-        // 如果没有权限，更新图标或提示
-        if !hasPermission {
-            statusItem?.button?.image = NSImage(systemSymbolName: "exclamationmark.triangle", accessibilityDescription: "缺少权限")
-            statusItem?.button?.image?.isTemplate = true
-        } else {
-            // 恢复正常图标
+    func updatePermissionStatus(_ state: PermissionUIState) {
+        switch state {
+        case .ready:
+            permissionItem?.isHidden = true
+            permissionRetryItem?.isHidden = true
             statusItem?.button?.image = NSImage(systemSymbolName: "rectangle.dashed.badge.record", accessibilityDescription: "ScreenMarker Pro")
             statusItem?.button?.image?.isTemplate = true
+            statusItem?.button?.toolTip = "ScreenMarker Pro\n按住 \(SettingsManager.shared.drawingHotkeyDisplayText)拖拽绘制标记"
+        case .accessibilityMissing:
+            permissionItem?.title = "⚠️ 需要辅助功能权限..."
+            permissionItem?.toolTip = "打开系统设置并授权辅助功能"
+            permissionItem?.isHidden = false
+            permissionRetryItem?.title = "我已授权，重新检测"
+            permissionRetryItem?.isHidden = false
+            statusItem?.button?.image = NSImage(systemSymbolName: "exclamationmark.triangle", accessibilityDescription: "缺少权限")
+            statusItem?.button?.image?.isTemplate = true
+            statusItem?.button?.toolTip = "ScreenMarker Pro\n缺少辅助功能权限，点击菜单可重新检测或打开系统设置"
+        case .retryInitialization:
+            permissionItem?.title = "⚠️ 权限可能已开启，但尚未生效"
+            permissionItem?.toolTip = "如已在系统设置中授权，可先点击重新检测；仍无效时可尝试退出应用后重开或重启系统"
+            permissionItem?.isHidden = false
+            permissionRetryItem?.title = "重新检测权限并重试初始化"
+            permissionRetryItem?.isHidden = false
+            statusItem?.button?.image = NSImage(systemSymbolName: "arrow.clockwise.circle", accessibilityDescription: "权限重试中")
+            statusItem?.button?.image?.isTemplate = true
+            statusItem?.button?.toolTip = "ScreenMarker Pro\n权限已变更但尚未生效，可从菜单手动重新检测"
         }
     }
 }

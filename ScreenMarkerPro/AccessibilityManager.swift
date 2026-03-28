@@ -58,7 +58,7 @@ class AccessibilityManager {
     func showPermissionAlert(completion: @escaping (Bool) -> Void) {
         let alert = NSAlert()
         alert.messageText = "需要辅助功能权限"
-        alert.informativeText = "ScreenMarker Pro需要辅助功能权限来监听键盘和鼠标事件。\n\n请在打开的系统设置中，勾选「ScreenMarker Pro」旁边的复选框。\n\n如果你启用了按键回显，在部分macOS版本上还可能需要额外开启“输入监控”权限。"
+        alert.informativeText = "ScreenMarker Pro需要辅助功能权限来监听键盘和鼠标事件。\n\n请在打开的系统设置中，勾选「ScreenMarker Pro」旁边的复选框。\n\n如果你启用了按键回显，在部分macOS版本上还可能需要额外开启“输入监控”权限。\n\n如果已经勾选但应用仍未生效，可以回到菜单栏，点击“重新检测权限并重试初始化”。"
         alert.alertStyle = .informational
         alert.addButton(withTitle: "打开系统设置")
         alert.addButton(withTitle: "稍后")

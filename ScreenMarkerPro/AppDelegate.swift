@@ -20,6 +20,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var hasInitializedKeycast = false // 标记KeyCast是否已完成首次渲染
     private var hasCompletedPermissionSetup = false
     private var settingsCancellables = Set<AnyCancellable>()
+    private var eventMonitorCancellables = Set<AnyCancellable>()
     private var permissionRecheckTimer: Timer?
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
@@ -72,7 +73,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         } else {
             print("⚠️ 未获得辅助功能权限，请求授权...")
             NSLog("⚠️ 未获得辅助功能权限，请求授权...")
-            menuBarManager?.updatePermissionStatus(false)
+            menuBarManager?.updatePermissionStatus(.accessibilityMissing)
             AccessibilityManager.shared.showPermissionAlert { [weak self] openedSettings in
                 if openedSettings {
                     self?.schedulePermissionRecheck()
@@ -135,6 +136,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         menuBarManager?.updateDrawingHotkeyHint(SettingsManager.shared.drawingHotkeyDisplayText)
         menuBarManager?.onOpenAccessibilitySettings = { [weak self] in
             self?.schedulePermissionRecheck()
+        }
+        menuBarManager?.onRetryPermissionCheck = { [weak self] in
+            self?.retryPermissionSetup()
         }
         bindHotkeyHintUpdates()
         print("✅ 菜单栏已创建")
@@ -233,6 +237,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     @discardableResult
     private func setupEventMonitor() -> Bool {
+        eventMonitorCancellables.removeAll()
         eventMonitor = EventMonitor()
         
         // 设置绘制回调
@@ -266,7 +271,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 .sink { [weak self] _, _ in
                     self?.syncKeyCastRuntimeState(forceLayoutRefresh: SettingsManager.shared.keyCastingRuntimeEnabled)
                 }
-                .store(in: &settingsCancellables)
+                .store(in: &eventMonitorCancellables)
             
             print("✅ 事件监听已启动 - 请使用 \(SettingsManager.shared.drawingHotkeyDisplayText) 来绘制标记")
         } else {
@@ -324,15 +329,45 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             cancelPermissionRecheck()
             print("✅ 已获得辅助功能权限并完成事件监听初始化")
             NSLog("✅ 已获得辅助功能权限并完成事件监听初始化")
-            menuBarManager?.updatePermissionStatus(true)
+            menuBarManager?.updatePermissionStatus(.ready)
         } else {
             print("⏳ 权限已授予，但事件监听尚未稳定，稍后重试")
-            menuBarManager?.updatePermissionStatus(false)
+            menuBarManager?.updatePermissionStatus(.retryInitialization)
             if permissionRecheckTimer == nil {
                 schedulePermissionRecheck()
             }
         }
         return success
+    }
+
+    private func retryPermissionSetup() {
+        print("🔄 用户手动触发权限重新检测与初始化重试")
+        cancelPermissionRecheck()
+
+        let hasPermission = AccessibilityManager.shared.checkAccessibilityPermission()
+        guard hasPermission else {
+            menuBarManager?.updatePermissionStatus(.accessibilityMissing)
+            AccessibilityManager.shared.openSystemPreferences()
+            schedulePermissionRecheck()
+            return
+        }
+
+        resetPermissionDependentSetupState()
+        if !attemptPermissionDependentSetup() {
+            schedulePermissionRecheck()
+        }
+    }
+
+    private func resetPermissionDependentSetupState() {
+        hasCompletedPermissionSetup = false
+        hasInitializedKeycast = false
+        eventMonitorCancellables.removeAll()
+        eventMonitor?.stop()
+        eventMonitor = nil
+        drawingManager?.clearAll()
+        drawingManager = nil
+        overlayWindows.forEach { $0.close() }
+        overlayWindows.removeAll()
     }
     
     private func checkMouseScreen(forceLayoutRefresh: Bool = false) {
