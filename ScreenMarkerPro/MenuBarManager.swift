@@ -189,7 +189,7 @@ class MenuBarManager: NSObject {
     
     @objc private func showAbout() {
         let alert = NSAlert()
-        alert.messageText = "ScreenMarker Pro V1.1.0"
+        alert.messageText = "ScreenMarker Pro V1.1.1"
         alert.informativeText = ""
         alert.alertStyle = .informational
         alert.addButton(withTitle: "好的")

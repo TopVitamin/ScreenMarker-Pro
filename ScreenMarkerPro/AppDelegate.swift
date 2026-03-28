@@ -18,6 +18,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var keyCastWindow: KeyCastWindow?
     var keyCastHostingController: NSHostingController<KeyCastView>?
     var hasInitializedKeycast = false // 标记KeyCast是否已完成首次渲染
+    private var hasCompletedPermissionSetup = false
     private var settingsCancellables = Set<AnyCancellable>()
     private var permissionRecheckTimer: Timer?
     
@@ -33,6 +34,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             self,
             selector: #selector(handleScreenConfigurationChange),
             name: NSApplication.didChangeScreenParametersNotification,
+            object: nil
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleAppDidBecomeActive),
+            name: NSApplication.didBecomeActiveNotification,
             object: nil
         )
         
@@ -61,11 +68,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let hasPermission = AccessibilityManager.shared.checkAccessibilityPermission()
         
         if hasPermission {
-            cancelPermissionRecheck()
-            print("✅ 已获得辅助功能权限")
-            NSLog("✅ 已获得辅助功能权限")
-            menuBarManager?.updatePermissionStatus(true)
-            setupOverlayAndEvents()
+            attemptPermissionDependentSetup()
         } else {
             print("⚠️ 未获得辅助功能权限，请求授权...")
             NSLog("⚠️ 未获得辅助功能权限，请求授权...")
@@ -83,20 +86,26 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         // 每2秒检查一次权限，直到获得授权
         permissionRecheckTimer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: true) { [weak self] timer in
-            if AccessibilityManager.shared.checkAccessibilityPermission() {
-                print("✅ 权限已授予，启动应用")
+            guard let self = self else {
                 timer.invalidate()
-                self?.permissionRecheckTimer = nil
-                self?.menuBarManager?.updatePermissionStatus(true)
-                self?.setupOverlayAndEvents()
+                return
+            }
+
+            guard AccessibilityManager.shared.checkAccessibilityPermission() else { return }
+
+            if self.attemptPermissionDependentSetup() {
+                timer.invalidate()
+                self.permissionRecheckTimer = nil
             }
         }
         permissionRecheckTimer?.tolerance = 0.5
     }
     
-    private func setupOverlayAndEvents() {
-        // 避免重复初始化
-        if drawingManager != nil { return }
+    @discardableResult
+    private func setupOverlayAndEvents() -> Bool {
+        if hasCompletedPermissionSetup {
+            return true
+        }
         
         // 创建全屏透明覆盖窗口
         setupOverlayWindows()
@@ -105,10 +114,20 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         setupKeyCastWindow()
         
         // 创建绘制管理器
-        drawingManager = DrawingManager(overlayWindows: overlayWindows)
+        if let drawingManager {
+            drawingManager.updateOverlayWindows(overlayWindows)
+        } else {
+            drawingManager = DrawingManager(overlayWindows: overlayWindows)
+        }
         
         // 启动事件监听
-        setupEventMonitor()
+        let success = setupEventMonitor()
+        hasCompletedPermissionSetup = success
+        if !success {
+            eventMonitor?.stop()
+            eventMonitor = nil
+        }
+        return success
     }
     
     private func setupMenuBar() {
@@ -201,12 +220,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // 更新DrawingManager的窗口列表
         drawingManager?.updateOverlayWindows(overlayWindows)
     }
+
+    @objc private func handleAppDidBecomeActive() {
+        if !hasCompletedPermissionSetup, AccessibilityManager.shared.checkAccessibilityPermission() {
+            _ = attemptPermissionDependentSetup()
+        }
+    }
     
     /// 创建测试窗口验证显示是否正常
     // 方法已移除
     // private func createTestWindow() { ... }
     
-    private func setupEventMonitor() {
+    @discardableResult
+    private func setupEventMonitor() -> Bool {
         eventMonitor = EventMonitor()
         
         // 设置绘制回调
@@ -246,6 +272,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         } else {
             print("❌ 事件监听启动失败，请检查辅助功能权限")
         }
+        return success
     }
 
     private func syncKeyCastRuntimeState(forceLayoutRefresh: Bool = false) {
@@ -287,6 +314,25 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private func cancelPermissionRecheck() {
         permissionRecheckTimer?.invalidate()
         permissionRecheckTimer = nil
+    }
+
+    @discardableResult
+    private func attemptPermissionDependentSetup() -> Bool {
+        print("🔁 尝试完成权限后的功能初始化...")
+        let success = setupOverlayAndEvents()
+        if success {
+            cancelPermissionRecheck()
+            print("✅ 已获得辅助功能权限并完成事件监听初始化")
+            NSLog("✅ 已获得辅助功能权限并完成事件监听初始化")
+            menuBarManager?.updatePermissionStatus(true)
+        } else {
+            print("⏳ 权限已授予，但事件监听尚未稳定，稍后重试")
+            menuBarManager?.updatePermissionStatus(false)
+            if permissionRecheckTimer == nil {
+                schedulePermissionRecheck()
+            }
+        }
+        return success
     }
     
     private func checkMouseScreen(forceLayoutRefresh: Bool = false) {
