@@ -130,7 +130,7 @@ bash scripts/notarize-release.sh
 触发方式：
 
 - 手动`workflow_dispatch`
-- 推送标签：`v1.0.0`
+- 推送标签：`v1.1.0`
 
 ### GitHub仓库变量(Repository Variables)
 

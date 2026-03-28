@@ -114,5 +114,9 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v2
         with:
-          files: build/release/artifacts/*
+          files: |
+            build/release/artifacts/*.zip
+            build/release/artifacts/*.dmg
+            build/release/artifacts/*.pkg
+            build/release/artifacts/SHA256SUMS.txt
           generate_release_notes: true

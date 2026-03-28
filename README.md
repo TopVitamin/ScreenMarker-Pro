@@ -2,7 +2,7 @@
 
 极简macOS演示辅助工具，通过`Command + 右键拖拽`在屏幕最顶层绘制彩色渐变矩形框。
 
-![Version](https://img.shields.io/badge/version-1.0-blue)
+![Version](https://img.shields.io/badge/version-1.1.0-blue)
 ![Platform](https://img.shields.io/badge/platform-macOS%2012.0%2B-lightgrey)
 ![License](https://img.shields.io/badge/license-未定-red)
 
