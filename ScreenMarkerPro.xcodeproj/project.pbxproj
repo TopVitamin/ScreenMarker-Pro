@@ -1,0 +1,406 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A1000001000000000000001 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000002000000000000001 /* AppDelegate.swift */; };
+		A1000003000000000000001 /* OverlayWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000004000000000000001 /* OverlayWindow.swift */; };
+		A1000005000000000000001 /* GradientRectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000006000000000000001 /* GradientRectView.swift */; };
+		A1000008000000000000001 /* AccessibilityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000009000000000000001 /* AccessibilityManager.swift */; };
+		A100000A000000000000001 /* EventMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000B000000000000001 /* EventMonitor.swift */; };
+		A100000C000000000000001 /* DrawingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000D000000000000001 /* DrawingManager.swift */; };
+		A100000E000000000000001 /* MenuBarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000F000000000000001 /* MenuBarManager.swift */; };
+		A1000030000000000000001 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000031000000000000001 /* main.swift */; };
+		D1855C712F34841200F45F56 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D1855C702F34841200F45F56 /* Assets.xcassets */; };
+		D1FB0CF82F347B8F00C5DE81 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1FB0CF62F347B8F00C5DE81 /* SettingsView.swift */; };
+		D1FB0CF92F347B8F00C5DE81 /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1FB0CF32F347B8F00C5DE81 /* Color+Extensions.swift */; };
+		D1FB0CFA2F347B8F00C5DE81 /* SettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1FB0CF52F347B8F00C5DE81 /* SettingsManager.swift */; };
+		B1000002 /* KeyCastManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000001 /* KeyCastManager.swift */; };
+		B1000004 /* KeyCodeMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000003 /* KeyCodeMapper.swift */; };
+		B1000006 /* KeyCastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000005 /* KeyCastView.swift */; };
+		B1000008 /* KeyCastWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000007 /* KeyCastWindow.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		A1000000000000000000001 /* ScreenMarkerPro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ScreenMarkerPro.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A1000002000000000000001 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		A1000004000000000000001 /* OverlayWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayWindow.swift; sourceTree = "<group>"; };
+		A1000006000000000000001 /* GradientRectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientRectView.swift; sourceTree = "<group>"; };
+		A1000007000000000000001 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A1000009000000000000001 /* AccessibilityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityManager.swift; sourceTree = "<group>"; };
+		A100000B000000000000001 /* EventMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventMonitor.swift; sourceTree = "<group>"; };
+		A100000D000000000000001 /* DrawingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingManager.swift; sourceTree = "<group>"; };
+		A100000F000000000000001 /* MenuBarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarManager.swift; sourceTree = "<group>"; };
+		A1000031000000000000001 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		D1855C702F34841200F45F56 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D1FB0CF32F347B8F00C5DE81 /* Color+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extensions.swift"; sourceTree = "<group>"; };
+		D1FB0CF52F347B8F00C5DE81 /* SettingsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsManager.swift; sourceTree = "<group>"; };
+		D1FB0CF62F347B8F00C5DE81 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		B1000001 /* KeyCastManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyCastManager.swift; sourceTree = "<group>"; };
+		B1000003 /* KeyCodeMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyCodeMapper.swift; sourceTree = "<group>"; };
+		B1000005 /* KeyCastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyCastView.swift; sourceTree = "<group>"; };
+		B1000007 /* KeyCastWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyCastWindow.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A1000020000000000000001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A1000010000000000000001 = {
+			isa = PBXGroup;
+			children = (
+				D1FB0CF42F347B8F00C5DE81 /* Extensions */,
+				D1FB0CF52F347B8F00C5DE81 /* SettingsManager.swift */,
+				D1FB0CF72F347B8F00C5DE81 /* Views */,
+				A1000011000000000000001 /* ScreenMarkerPro */,
+				A1000012000000000000001 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A1000011000000000000001 /* ScreenMarkerPro */ = {
+			isa = PBXGroup;
+			children = (
+				A1000031000000000000001 /* main.swift */,
+				A1000002000000000000001 /* AppDelegate.swift */,
+				A1000004000000000000001 /* OverlayWindow.swift */,
+				A1000006000000000000001 /* GradientRectView.swift */,
+				A1000009000000000000001 /* AccessibilityManager.swift */,
+				A100000B000000000000001 /* EventMonitor.swift */,
+					A100000D000000000000001 /* DrawingManager.swift */,
+					A100000F000000000000001 /* MenuBarManager.swift */,
+					D1855C702F34841200F45F56 /* Assets.xcassets */,
+					A1000007000000000000001 /* Info.plist */,
+					B1000001 /* KeyCastManager.swift */,
+				B1000003 /* KeyCodeMapper.swift */,
+				B1000005 /* KeyCastView.swift */,
+				B1000007 /* KeyCastWindow.swift */,
+			);
+			path = ScreenMarkerPro;
+			sourceTree = "<group>";
+		};
+		A1000012000000000000001 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A1000000000000000000001 /* ScreenMarkerPro.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D1FB0CF42F347B8F00C5DE81 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				D1FB0CF32F347B8F00C5DE81 /* Color+Extensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		D1FB0CF72F347B8F00C5DE81 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				D1FB0CF62F347B8F00C5DE81 /* SettingsView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A100000E000000000000002 /* ScreenMarkerPro */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A1000013000000000000001 /* Build configuration list for PBXNativeTarget "ScreenMarkerPro" */;
+			buildPhases = (
+				A100000B000000000000002 /* Sources */,
+				A1000020000000000000001 /* Frameworks */,
+				A100000C000000000000002 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ScreenMarkerPro;
+			productName = ScreenMarkerPro;
+			productReference = A1000000000000000000001 /* ScreenMarkerPro.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A1000014000000000000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 2620;
+				TargetAttributes = {
+					A100000E000000000000002 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+				};
+			};
+			buildConfigurationList = A1000015000000000000001 /* Build configuration list for PBXProject "ScreenMarkerPro" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = A1000010000000000000001;
+			productRefGroup = A1000012000000000000001 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A100000E000000000000002 /* ScreenMarkerPro */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A100000C000000000000002 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D1855C712F34841200F45F56 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A100000B000000000000002 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A1000030000000000000001 /* main.swift in Sources */,
+				A1000001000000000000001 /* AppDelegate.swift in Sources */,
+				A1000003000000000000001 /* OverlayWindow.swift in Sources */,
+				D1FB0CF82F347B8F00C5DE81 /* SettingsView.swift in Sources */,
+				D1FB0CF92F347B8F00C5DE81 /* Color+Extensions.swift in Sources */,
+				D1FB0CFA2F347B8F00C5DE81 /* SettingsManager.swift in Sources */,
+				A1000005000000000000001 /* GradientRectView.swift in Sources */,
+				A1000008000000000000001 /* AccessibilityManager.swift in Sources */,
+				A100000A000000000000001 /* EventMonitor.swift in Sources */,
+				A100000C000000000000001 /* DrawingManager.swift in Sources */,
+				A100000E000000000000001 /* MenuBarManager.swift in Sources */,
+				B1000002 /* KeyCastManager.swift in Sources */,
+				B1000004 /* KeyCodeMapper.swift in Sources */,
+				B1000006 /* KeyCastView.swift in Sources */,
+				B1000008 /* KeyCastWindow.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		A1000016000000000000001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		A1000017000000000000001 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		A1000018000000000000001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = ScreenMarkerPro/Info.plist;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.ScreenMarkerPro;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		A1000019000000000000001 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = ScreenMarkerPro/Info.plist;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.ScreenMarkerPro;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A1000013000000000000001 /* Build configuration list for PBXNativeTarget "ScreenMarkerPro" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A1000018000000000000001 /* Debug */,
+				A1000019000000000000001 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A1000015000000000000001 /* Build configuration list for PBXProject "ScreenMarkerPro" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A1000016000000000000001 /* Debug */,
+				A1000017000000000000001 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A1000014000000000000001 /* Project object */;
+}

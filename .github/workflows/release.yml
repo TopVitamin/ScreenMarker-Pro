@@ -1,0 +1,118 @@
+name: Build Release
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  release:
+    runs-on: macos-14
+    permissions:
+      contents: write
+
+    env:
+      APP_NAME: ScreenMarkerPro
+      DISPLAY_NAME: ScreenMarker Pro
+      PRODUCT_BUNDLE_IDENTIFIER_OVERRIDE: ${{ vars.APP_BUNDLE_ID }}
+      DEVELOPMENT_TEAM_OVERRIDE: ${{ vars.APPLE_TEAM_ID }}
+      DEVELOPER_ID_APPLICATION: ${{ vars.DEVELOPER_ID_APPLICATION }}
+      DEVELOPER_ID_INSTALLER: ${{ vars.DEVELOPER_ID_INSTALLER }}
+      NOTARY_PROFILE: github-notarytool-profile
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Decide release mode
+        id: mode
+        shell: bash
+        run: |
+          if [[ -n "${{ secrets.DEVELOPER_ID_APPLICATION_P12_BASE64 }}" && -n "${{ vars.DEVELOPER_ID_APPLICATION }}" && -n "${{ vars.APPLE_TEAM_ID }}" && -n "${{ vars.APP_BUNDLE_ID }}" ]]; then
+            echo "signing=signed" >> "$GITHUB_OUTPUT"
+          else
+            echo "signing=unsigned" >> "$GITHUB_OUTPUT"
+          fi
+
+          if [[ -n "${{ secrets.DEVELOPER_ID_INSTALLER_P12_BASE64 }}" && -n "${{ vars.DEVELOPER_ID_INSTALLER }}" ]]; then
+            echo "with_pkg=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "with_pkg=false" >> "$GITHUB_OUTPUT"
+          fi
+
+          if [[ -n "${{ secrets.APPLE_ID }}" && -n "${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}" && -n "${{ vars.APPLE_TEAM_ID }}" ]]; then
+            echo "notarize=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "notarize=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Import signing certificates
+        if: steps.mode.outputs.signing == 'signed'
+        shell: bash
+        run: |
+          KEYCHAIN_PATH="${RUNNER_TEMP}/release.keychain-db"
+          KEYCHAIN_PASSWORD="$(openssl rand -hex 12)"
+          echo "KEYCHAIN_PATH=${KEYCHAIN_PATH}" >> "$GITHUB_ENV"
+          echo "KEYCHAIN_PASSWORD=${KEYCHAIN_PASSWORD}" >> "$GITHUB_ENV"
+
+          security create-keychain -p "${KEYCHAIN_PASSWORD}" "${KEYCHAIN_PATH}"
+          security set-keychain-settings -lut 21600 "${KEYCHAIN_PATH}"
+          security unlock-keychain -p "${KEYCHAIN_PASSWORD}" "${KEYCHAIN_PATH}"
+          security list-keychains -d user -s "${KEYCHAIN_PATH}"
+
+          echo "${{ secrets.DEVELOPER_ID_APPLICATION_P12_BASE64 }}" | base64 --decode > "${RUNNER_TEMP}/developer-id-app.p12"
+          security import "${RUNNER_TEMP}/developer-id-app.p12" -k "${KEYCHAIN_PATH}" -P "${{ secrets.DEVELOPER_ID_APPLICATION_P12_PASSWORD }}" -T /usr/bin/codesign -T /usr/bin/security
+
+          if [[ "${{ steps.mode.outputs.with_pkg }}" == "true" ]]; then
+            echo "${{ secrets.DEVELOPER_ID_INSTALLER_P12_BASE64 }}" | base64 --decode > "${RUNNER_TEMP}/developer-id-installer.p12"
+            security import "${RUNNER_TEMP}/developer-id-installer.p12" -k "${KEYCHAIN_PATH}" -P "${{ secrets.DEVELOPER_ID_INSTALLER_P12_PASSWORD }}" -T /usr/bin/productsign -T /usr/bin/pkgbuild -T /usr/bin/security
+          fi
+
+          security set-key-partition-list -S apple-tool:,apple:,codesign:,productsign: -s -k "${KEYCHAIN_PASSWORD}" "${KEYCHAIN_PATH}"
+
+      - name: Build release artifacts
+        shell: bash
+        run: |
+          chmod +x scripts/*.sh
+
+          cmd=(bash scripts/package-release.sh)
+          if [[ "${{ steps.mode.outputs.signing }}" == "signed" ]]; then
+            cmd+=(--signed)
+          else
+            cmd+=(--unsigned)
+          fi
+
+          if [[ "${{ steps.mode.outputs.with_pkg }}" == "true" ]]; then
+            cmd+=(--with-pkg)
+          fi
+
+          "${cmd[@]}"
+
+      - name: Create notarytool profile
+        if: steps.mode.outputs.signing == 'signed' && steps.mode.outputs.notarize == 'true'
+        shell: bash
+        run: |
+          xcrun notarytool store-credentials "${NOTARY_PROFILE}" \
+            --apple-id "${{ secrets.APPLE_ID }}" \
+            --team-id "${{ vars.APPLE_TEAM_ID }}" \
+            --password "${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}"
+
+      - name: Notarize artifacts
+        if: steps.mode.outputs.signing == 'signed' && steps.mode.outputs.notarize == 'true'
+        shell: bash
+        run: |
+          bash scripts/notarize-release.sh
+
+      - name: Upload workflow artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ScreenMarkerPro-release
+          path: build/release/artifacts/*
+
+      - name: Publish GitHub Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: build/release/artifacts/*
+          generate_release_notes: true
