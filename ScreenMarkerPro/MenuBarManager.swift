@@ -177,7 +177,7 @@ class MenuBarManager: NSObject {
             }
         } else {
             // macOS 12 使用旧的API
-            let success = SMLoginItemSetEnabled("com.yourcompany.ScreenMarkerPro" as CFString, !currentState)
+            let success = SMLoginItemSetEnabled("com.topvitamin.ScreenMarkerPro" as CFString, !currentState)
             if success {
                 updateLoginItemState()
                 onLoginItemStatusChanged?(!currentState)
@@ -189,7 +189,7 @@ class MenuBarManager: NSObject {
     
     @objc private func showAbout() {
         let alert = NSAlert()
-        alert.messageText = "ScreenMarker Pro V1.1.1"
+        alert.messageText = "ScreenMarker Pro V1.1.2"
         alert.informativeText = ""
         alert.alertStyle = .informational
         alert.addButton(withTitle: "好的")

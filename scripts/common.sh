@@ -100,6 +100,16 @@ copy_app_from_archive() {
   ditto "${archive_app_path}" "${APP_ARTIFACT_PATH}"
 }
 
+adhoc_sign_app() {
+  local app_path="$1"
+
+  ensure_command codesign
+
+  log "对App执行显式adhoc签名"
+  codesign --force --deep --sign - --timestamp=none "${app_path}"
+  codesign --verify --deep --strict --verbose=2 "${app_path}"
+}
+
 create_zip_from_app() {
   local app_path="$1"
   local zip_path="$2"

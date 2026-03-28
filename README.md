@@ -2,7 +2,7 @@
 
 一款面向演示、录屏和远程讲解场景的macOS辅助工具，支持**屏幕标注**、**按键回显(Keycasting)**和**多项演示参数自定义**。
 
-![Version](https://img.shields.io/badge/version-1.1.1-blue)
+![Version](https://img.shields.io/badge/version-1.1.2-blue)
 ![Platform](https://img.shields.io/badge/platform-macOS%2012.0%2B-lightgrey)
 ![License](https://img.shields.io/badge/license-未定-red)
 

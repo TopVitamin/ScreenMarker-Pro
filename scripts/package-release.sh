@@ -36,6 +36,10 @@ prepare_release_dirs
 archive_app "${signing_mode}"
 copy_app_from_archive
 
+if [[ "${signing_mode}" == "unsigned" ]]; then
+  adhoc_sign_app "${APP_ARTIFACT_PATH}"
+fi
+
 log "生成zip"
 create_zip_from_app "${APP_ARTIFACT_PATH}" "${ZIP_PATH}"
 

@@ -13,9 +13,9 @@
 - `Version`
 - `Build`
 
-当前工程里还是占位值：
+当前工程里发布前最关键的是这两个值：
 
-- `PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.ScreenMarkerPro`
+- `PRODUCT_BUNDLE_IDENTIFIER = com.topvitamin.ScreenMarkerPro`
 - `DEVELOPMENT_TEAM = ""`
 
 如果不改，签名和公证流程无法真正落地。
@@ -130,7 +130,7 @@ bash scripts/notarize-release.sh
 触发方式：
 
 - 手动`workflow_dispatch`
-- 推送标签：`v1.1.1`
+- 推送标签：`v1.1.2`
 
 ### GitHub仓库变量(Repository Variables)
 
